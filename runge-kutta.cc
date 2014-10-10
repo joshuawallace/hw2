@@ -24,7 +24,7 @@ int Runge_Kutta::Step(double t, double *x){
     xtofeedin=x[i] + dt_/2. * k[0];
 
     //now find k2, first evaluate rhs then get k2
-    model_.rhs(t,x,fx
+    model_.rhs(t,x,fx)
   }
   return 0;
 }
