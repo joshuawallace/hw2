@@ -15,6 +15,9 @@ class Adams_Bashforth : public Integrator{
   const Model &model_;//functor that evaluates f(x,t)
   double *fx_;        //holds f(x,t)
   double *fx_previous_;//hold f(x,t) of previous timestep, unique to ab2 method
+
+  int isfirstiteration; //lets us know if it is the first iteration.  Initial value is 1, meaning, yes, it is the first iteration.  This is set to 0 when the first iteration happens.
 };
+
 
 #endif   // ADAMSBASHFORTH_H_
