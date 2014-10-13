@@ -32,12 +32,12 @@ int Runge_Kutta::Step(double t, double *x){
       xtofeedin[i]=x[i]+dt_/2 * k[i][0];
     }
   
-  model_.rhs(t+(*integrator).dt_/2.,xtofeedin,fx);
+  model_.rhs(t+dt_/2.,xtofeedin,fx_);
   
   //calculates k2, based on fx above, which was based on xtofeedin above
   for(int i=0;i<dimen_;i++)
     {
-      k[i][1]=fx[i];
+      k[i][1]=fx_[i];
     }
   
   
@@ -48,12 +48,12 @@ int Runge_Kutta::Step(double t, double *x){
       xtofeedin[i]=x[i]+dt_/2. * k[i][1];
     }
   
-  model_.rhs(t+dt_/2.,xtofeedin,fx);
+  model_.rhs(t+dt_/2.,xtofeedin,fx_);
   
   //calculates k3, based on fx above, which was based on xtofeedin above
   for(int i=0;i<dimen_;i++)
     {
-      k[i][2]=fx[i];
+      k[i][2]=fx_[i];
     }
   
   
@@ -64,12 +64,12 @@ int Runge_Kutta::Step(double t, double *x){
       xtofeedin[i]=x[i]+dt_ * k[i][2];
     }
   
-  model_.rhs(t+dt_,xtofeedin,fx);
+  model_.rhs(t+dt_,xtofeedin,fx_);
   
   //calculates k3, based on fx above, which was based on xtofeedin above
   for(int i=0;i<dimen_;i++)
     {
-      k[i][3]=fx[i];
+      k[i][3]=fx_[i];
     }
   
   /////////////////Now to actually update the x values
