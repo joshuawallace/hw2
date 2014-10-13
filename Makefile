@@ -8,7 +8,7 @@ objects2 = ode_solve.o $(integrators2) $(equations2)
 
 CXXFLAGS = -g -Wall
 
-all: duffing_solve ode_solve
+all: duffing_solve ode_solve test_convergence
 
 duffing_solve : $(objects)
 	$(CXX) -o $@ $^
@@ -23,4 +23,7 @@ depend:
 -include .depend
 
 ode_solve: $(objects2)
+	$(CXX) -o $@ $^
+
+test_convergence: test_convergence.o linear-oscillator.o $(integrators2)
 	$(CXX) -o $@ $^

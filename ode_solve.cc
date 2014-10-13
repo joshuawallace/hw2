@@ -33,10 +33,6 @@ void PrintState(double n, double t, const double *x) {
 
 int main(int argc, char **argv){
 
-  //  const char *equation_name[120];
-  //  const char *integrator_name[120];
-  //const double *initial_conditions;
-
   if(argc != 5) {
     intromessage(argv[0]);
   }
@@ -64,7 +60,6 @@ int main(int argc, char **argv){
     x[0]=0.0;
     x[1]=0.01;
     x[2]=0.0;
-    printf("%lf\n",x[1]);
   }
   else if(strncmp(argv[1], "linear",10)==0 ){
     const double beta = 0.1;
@@ -74,15 +69,12 @@ int main(int argc, char **argv){
     x = new double[model->dimen()];
     x[0]=0.0;
     x[1]=0.0;
-    //printf("Somehow got into this loop\n");
   }
 
   else{
     printf("Didn't recognize the EQUATION name you entered, which was %s\nNow exiting...\n",argv[1]);
     return -1;
   }
-
-  printf("%lf\n",x[1]);
 
 
   Integrator *integrator;

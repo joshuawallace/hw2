@@ -1,0 +1,5 @@
+rk4# 0.1  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
+rk4# 0.01  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
+rk4# 0.001  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
+rk4# 0.0001  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
+rk4# 0.00001  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
