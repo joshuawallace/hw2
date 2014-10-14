@@ -24,17 +24,17 @@ void intromessage(char *name, int argc)
 
 double x_of_linear_osc(const double t, const double beta, const double omega, const double gamma, const double c1, const double c2, const double A, const double B){
   //calculates the exact x value from the analytic solution
-
+  
   const double omega_d = sqrt(1 - beta*beta); //one of the convenient parameters used
-
+  
   return exp(-beta*t) * (c1 * cos(omega_d * t) + c2 * sin(omega_d * t)) + A * cos(omega*t) + B * sin(omega*t); //return the calculated x value
 }
 
 double x_prime_of_linear_osc(const double t, const double beta, const double omega, const double gamma, const double c1, const double c2, const double A, const double B){
   //calculates the exact x' value from the analytic solution
-
+  
   const double omega_d = sqrt(1 - beta*beta); //one of the convenient parameters used
-
+  
   return exp(-beta*t) * ( -beta * (c1 * cos(omega_d * t) + c2 * sin(omega_d * t)) + omega_d * ( -c1 * sin(omega_d * t) + c2 * cos(omega_d*t)) ) - omega * ( A * sin(omega*t) - B * cos(omega*t)); //return the calculated x' value
 }
 
@@ -43,10 +43,10 @@ int main(int argc, char **argv){
   if(argc != 4) {
     intromessage(argv[0],argc); //triggers if the wrong number of command line arguments is entered
   }
-
+  
   const double dt = atof(argv[2]);  //pull timestep in from command line
   const int nsteps = atoi(argv[3]); //pull number of steps in from command line
-
+  
   const double beta = 0.1;  //parameter for the ODE
   const double gamma = 1.;  //parameter for the ODE
   const double omega = 0.9; //parameter for the ODE
@@ -57,7 +57,7 @@ int main(int argc, char **argv){
   x[1]=0.0; //initial conditions
   
   Integrator *integrator; //allocate some memory for the integrator
-    
+  
   if(strncmp(argv[1], "euler",10)==0 ){ //if euler is selected
     integrator = new Euler(dt, *model); //use the Euler method
   }
@@ -77,7 +77,7 @@ int main(int argc, char **argv){
     return -1;
   }
   
-    
+  
   const double A = ( (1 - omega*omega) * gamma) / ( pow(1-omega*omega,2) + 4 * beta*beta * omega*omega); //convenient parameter for analytic solution
   const double B = 2 * beta * omega * gamma / ( pow(1-omega*omega,2) + 4 * beta*beta * omega*omega);//convenient parameter for analytic solution
   
@@ -93,7 +93,13 @@ int main(int argc, char **argv){
   //there has been no divergence between itegration and actual.
   
   for(int i = 0; i < nsteps; ++i){
-    integrator->Step(t, x); //step the integration forward
+    int check = integrator->Step(t, x); //step the integration forward
+    if(check != 0){
+      fprintf(stderr,"Looks like your integrator failed to step.  Sorry!  Now exiting...\n");
+      delete integrator;
+      delete model;
+      exit(1);
+    }
     t = (i+1) * dt; //update the time
     error_norm += pow( (x[0] - x_of_linear_osc(t,beta,omega,gamma,c1,c2,A,B)), 2) + pow( (x[1] - x_prime_of_linear_osc(t,beta,omega,gamma,c1,c2,A,B)), 2); //update the error norm
   }
@@ -102,5 +108,6 @@ int main(int argc, char **argv){
   
   delete integrator;
   delete model;
+
   return 0;
 }

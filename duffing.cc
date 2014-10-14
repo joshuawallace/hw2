@@ -2,9 +2,9 @@
 #include <math.h>
 
 Duffing::Duffing(double delta, double gamma, double omega)//constructor
-    : delta_(delta),
-      gamma_(gamma),
-      omega_(omega)
+  : delta_(delta),
+    gamma_(gamma),
+    omega_(omega)
 {}
 
 Duffing::~Duffing()//destructor

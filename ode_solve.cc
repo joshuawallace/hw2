@@ -43,7 +43,7 @@ int main(int argc, char **argv){
   const int nsteps = atoi(argv[4]); //pull number of steps in from command line
   Model *model; //make room for the info for the ODE to solve
   double *x; //make room for x, x', ...etc.
-
+  
   if(strncmp(argv[1],  "duffing",10)==0 ){ //if duffing is chosen
     const double delta = 0.2; //parameter for equation
     const double gamma = 0.3; //parameter for equation
@@ -59,9 +59,9 @@ int main(int argc, char **argv){
     const double beta = 8./3.; //parameter for equation
     model = new Lorenz(sigma, rho, beta); //Set up stuff to run lorenz
     x = new double[model->dimen()]; //make room in memory for x
-    x[0]=0.0; //initial conditio
-    x[1]=0.01; //initial conditio
-    x[2]=0.0; //initial conditio
+    x[0]=0.0; //initial condition
+    x[1]=0.01; //initial condition
+    x[2]=0.0; //initial condition
   }
   else if(strncmp(argv[1], "linear",10)==0 ){ //if linear is chosen
     const double beta = 0.1; //parameter for equation
@@ -69,47 +69,56 @@ int main(int argc, char **argv){
     const double omega = 0.9; //parameter for equation
     model = new LinearOscillator(beta, gamma, omega);//Set up stuff to run linear oscillator
     x = new double[model->dimen()]; //make room in memory for x
-    x[0]=0.0; //initial conditio
-    x[1]=0.0; //initial conditio
+    x[0]=0.0; //initial condition
+    x[1]=0.0; //initial condition
   }
-
+  
   else{ //if the entered equation name wasn't recognized, let user know and quit
     printf("Didn't recognize the EQUATION name you entered, which was %s\nNow exiting...\n",argv[1]);
-    return -1;
+    exit(1);
   }
-
-
+  
+  
   Integrator *integrator; //make room for the integrator
-
+  
   if(strncmp(argv[2], "euler",10)==0 ){ //if euler is selected
     integrator = new Euler(dt, *model); //use the Euler algorithm
   }
-
+  
   else if(strncmp(argv[2], "rk4",10)==0 ){ //if rk4 is selected
     integrator = new Runge_Kutta(dt, *model); //use the Runge-Kutta algorithm
   }
-
+  
   else if(strncmp(argv[2], "ab2",10)==0 ){ //if ab2 is selected
     integrator = new Adams_Bashforth(dt, *model); //use the Adams-Bashforth algorithm
   }
-
+  
   else{ //if entered integrator wasn't recognized, let user know and quit
     printf("Didn't recognize the INTEGRATOR name you entered, which was %s\nNow exiting...\n",argv[2]);
     delete model;
     delete [] x;
     return -1;
   }
-
+  
   double t=0.; //The time
+  int check = -1;   //Used to check the stepper function to make sure it succeeded
   PrintState(model->dimen(), t, x); //Print initial conditions
   for(int i = 0; i < nsteps; ++i){
-    integrator->Step(t, x); //step the integration
+    check = integrator->Step(t, x); //step the integration
+    if(check != 0){ //if the stepper failed to step
+      fprintf(stderr,"Looks like your integrator failed to step.  Sorry! Now exiting...\n");
+      delete integrator;
+      delete model;
+      delete [] x;
+      exit(1);
+    }
     t = (i+1) * dt; //update t
     PrintState(model->dimen(), t, x); //print out the results of the step
   }
-
+  
   delete integrator;
   delete model;
   delete [] x;
+
   return 0;
 }

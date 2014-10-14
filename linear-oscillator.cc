@@ -2,9 +2,9 @@
 #include <math.h>
 
 LinearOscillator::LinearOscillator(double beta, double gamma, double omega)//constructor
-    : beta_(beta),
-      gamma_(gamma),
-      omega_(omega)
+  : beta_(beta),
+    gamma_(gamma),
+    omega_(omega)
 {}
 
 LinearOscillator::~LinearOscillator()//destructor

@@ -2,9 +2,9 @@
 #include <math.h>
 
 Lorenz::Lorenz(double sigma, double rho, double beta)//constructor
-    : sigma_(sigma),
-      rho_(rho),
-      beta_(beta)
+  : sigma_(sigma),
+    rho_(rho),
+    beta_(beta)
 {}
 
 Lorenz::~Lorenz()//destructor
