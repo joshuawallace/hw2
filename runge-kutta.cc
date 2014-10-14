@@ -2,10 +2,10 @@
 #include "model.h"
 
 Runge_Kutta::Runge_Kutta(double dt, const Model &model)
-  : dimen_(model.dimen()),
-    dt_(dt),
+  : dimen_(model.dimen()), //number of equations
+    dt_(dt),               //time step size
     model_(model) {
-  fx_ = new double[dimen_];
+  fx_ = new double[dimen_]; //used to hold f(x,t) of current iteration
     }
 
 Runge_Kutta::~Runge_Kutta(){
@@ -15,7 +15,7 @@ Runge_Kutta::~Runge_Kutta(){
 int Runge_Kutta::Step(double t, double *x){
 
   double k[dimen_][4]; //to store the k values as we go along
-  model_.rhs(t,x,fx_);
+  model_.rhs(t,x,fx_); //calculate f(x,t)
   
   //calculates k1, based on fx_ above
   for(int i=0;i<dimen_;i++)
@@ -32,7 +32,7 @@ int Runge_Kutta::Step(double t, double *x){
       xtofeedin[i]=x[i]+dt_/2 * k[i][0];
     }
   
-  model_.rhs(t+dt_/2.,xtofeedin,fx_);
+  model_.rhs(t+dt_/2.,xtofeedin,fx_); //calculate f(x,t)
   
   //calculates k2, based on fx above, which was based on xtofeedin above
   for(int i=0;i<dimen_;i++)
@@ -48,7 +48,7 @@ int Runge_Kutta::Step(double t, double *x){
       xtofeedin[i]=x[i]+dt_/2. * k[i][1];
     }
   
-  model_.rhs(t+dt_/2.,xtofeedin,fx_);
+  model_.rhs(t+dt_/2.,xtofeedin,fx_); //calculate f(x,t)
   
   //calculates k3, based on fx above, which was based on xtofeedin above
   for(int i=0;i<dimen_;i++)
@@ -64,7 +64,7 @@ int Runge_Kutta::Step(double t, double *x){
       xtofeedin[i]=x[i]+dt_ * k[i][2];
     }
   
-  model_.rhs(t+dt_,xtofeedin,fx_);
+  model_.rhs(t+dt_,xtofeedin,fx_); //calculate f(x,t)
   
   //calculates k3, based on fx above, which was based on xtofeedin above
   for(int i=0;i<dimen_;i++)
@@ -76,7 +76,7 @@ int Runge_Kutta::Step(double t, double *x){
   
   for(int i=0;i<dimen_;i++)
     {
-      x[i] = x[i] + dt_/6.*k[i][0] + dt_/3.*(k[i][1] + k[i][2]) + dt_/6.*k[i][3];
+      x[i] = x[i] + dt_/6.*k[i][0] + dt_/3.*(k[i][1] + k[i][2]) + dt_/6.*k[i][3]; //Uses the Runge-Kutta algorithm to step x
     }
   return 0;
 }

@@ -10,8 +10,8 @@ class Duffing : public Model {
  public:
   Duffing(double delta, double gamma, double omega);
   ~Duffing();
-  int rhs(double t, const double *x, double *fx) const;
-  int dimen() const { return kDimen; }
+  int rhs(double t, const double *x, double *fx) const;//calculates fx
+  int dimen() const { return kDimen; } //number of equations
  private:
   const double delta_;                        // damping constant
   const double gamma_;                        // amplitude of forcing

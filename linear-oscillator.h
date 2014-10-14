@@ -10,8 +10,8 @@ class LinearOscillator : public Model {
  public:
   LinearOscillator(double beta, double gamma, double omega);
   ~LinearOscillator();
-  int rhs(double t, const double *x, double *fx) const;
-  int dimen() const { return kDimen; }
+  int rhs(double t, const double *x, double *fx) const;//used to calculate fx
+  int dimen() const { return kDimen; }   //number of equations
  private:
   const double beta_;                         // damping constant (I think)
   const double gamma_;                        // amplitude of forcing

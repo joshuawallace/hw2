@@ -2,11 +2,11 @@
 #include "model.h"
 
 Adams_Bashforth::Adams_Bashforth(double dt, const Model &model)
-  : dimen_(model.dimen()),
-    dt_(dt),
+  : dimen_(model.dimen()), //number of equations
+    dt_(dt),               //time step size
     model_(model) {
-  fx_ = new double[dimen_];
-  fx_previous_ = new double[dimen_];
+  fx_ = new double[dimen_];  //used to hold f(x,t) of current iteration
+  fx_previous_ = new double[dimen_]; //used to hold the f(x,t) values of the previous iteration, which is necessary for the Adams-Bashforth algorithm
   isfirstiteration = 1; //tracks whether it is the first iteration or not, defined here initially to be 1, which means "yes"
 
     }
@@ -22,7 +22,7 @@ int Adams_Bashforth::Step(double t, double *x){
     //implement Runge-Kutta for first iteration
     
     double k[dimen_][4]; //to store the k values as we go along
-    model_.rhs(t,x,fx_);
+    model_.rhs(t,x,fx_); //calculate f(x,t)
     
     //calculates k1, based on fx_ above
     for(int i=0;i<dimen_;i++)
@@ -39,7 +39,7 @@ int Adams_Bashforth::Step(double t, double *x){
         xtofeedin[i]=x[i]+dt_/2 * k[i][0];
       }
     
-    model_.rhs(t+dt_/2.,xtofeedin,fx_);
+    model_.rhs(t+dt_/2.,xtofeedin,fx_); //calculate f(x',t')
     
     //calculates k2, based on fx above, which was based on xtofeedin above
     for(int i=0;i<dimen_;i++)
@@ -55,7 +55,7 @@ int Adams_Bashforth::Step(double t, double *x){
         xtofeedin[i]=x[i]+dt_/2. * k[i][1];
       }
     
-    model_.rhs(t+dt_/2.,xtofeedin,fx_);
+    model_.rhs(t+dt_/2.,xtofeedin,fx_); //calculate f(x',t')
     
     //calculates k3, based on fx above, which was based on xtofeedin above
     for(int i=0;i<dimen_;i++)
@@ -71,7 +71,7 @@ int Adams_Bashforth::Step(double t, double *x){
         xtofeedin[i]=x[i]+dt_ * k[i][2];
       }
     
-    model_.rhs(t+dt_,xtofeedin,fx_);
+    model_.rhs(t+dt_,xtofeedin,fx_); //calculate f(x',t')
     
     //calculates k3, based on fx above, which was based on xtofeedin above
     for(int i=0;i<dimen_;i++)
@@ -92,10 +92,10 @@ int Adams_Bashforth::Step(double t, double *x){
 
   else{ //All but the first iteration
     
-    model_.rhs(t,x,fx_); //find fx_
+    model_.rhs(t,x,fx_); //find f(x,t)
 
     for(int i=0;i<dimen_;i++){
-      x[i] = x[i] + 1.5 * dt_ * fx_[i] - 0.5 * dt_ * fx_previous_[i]; //Uses the Adams-Bashfort algorithm to step x, specifically ab2
+      x[i] = x[i] + 1.5 * dt_ * fx_[i] - 0.5 * dt_ * fx_previous_[i]; //Uses the Adams-Bashforth algorithm to step x
       fx_previous_[i]=fx_[i]; //update fx_previous_ for the next iteration
     }
   }

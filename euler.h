@@ -8,7 +8,7 @@ class Euler : public Integrator {
  public:
   Euler(double dt, const Model &model);
   ~Euler();
-  int Step(double t, double *x);
+  int Step(double t, double *x);        //used to step integral forward
  private:
   const int dimen_;                     // dimension of state x
   const double dt_;                     // timestep

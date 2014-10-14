@@ -11,8 +11,8 @@ class Lorenz : public Model {
  public:
   Lorenz(double sigma, double rho, double beta);
   ~Lorenz();
-  int rhs(double t, const double *x, double *fx) const;
-  int dimen() const { return kDimen; }
+  int rhs(double t, const double *x, double *fx) const; //used to calculate fx
+  int dimen() const { return kDimen; }    //number of equations
  private:
   const double sigma_;                        // I honestly don't know
   const double rho_;                          // what each of these
