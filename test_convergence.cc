@@ -15,9 +15,9 @@
 
 #include "model.h"
 
-void intromessage(char *name)
+void intromessage(char *name, int argc)
 {
-  printf("Usage: %s <integrator> <timestep> <num_steps>\n",name);
+  printf("Usage: %s <integrator> <timestep> <num_steps>, you only had %d arguments\n",name,argc);
   exit(0);
 }
 
@@ -40,7 +40,7 @@ double x_prime_of_linear_osc(const double t, const double beta, const double ome
 int main(int argc, char **argv){
   
   if(argc != 4) {
-    intromessage(argv[0]);
+    intromessage(argv[0],argc);
   }
 
   const double dt = atof(argv[2]);

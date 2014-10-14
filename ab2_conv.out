@@ -1,5 +1,5 @@
-ab2# 0.1  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
-ab2# 0.01  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
-ab2# 0.001  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
-ab2# 0.0001  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
-ab2# 0.00001  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
+0.1  47.363791
+0.01  47.997492
+0.001  47.981208
+0.0001  47.978750
+0.00001  47.978496

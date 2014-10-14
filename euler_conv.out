@@ -1,5 +1,5 @@
-euler# 0.1  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
-euler# 0.01  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
-euler# 0.001  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
-euler# 0.0001  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
-euler# 0.00001  Usage: ./test_convergence <integrator> <timestep> <num_steps>#
+0.1  69.215806
+0.01  49.398267
+0.001  48.115757
+0.0001  47.992151
+0.00001  47.979835

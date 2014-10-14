@@ -3,14 +3,14 @@
 
 integrators="euler rk4 ab2"
 timestep="0.1 0.01 0.001 0.0001 0.00001"
-nsteps="250 2500 25000 250000 2500000"
 
 for intg in $integrators
 do
-        i=0
-        for t in $timestep
+        for dt in $timestep
         do
-               "$t  `./test_convergence $intg $timestep nsteps[$i]`" >> $intg""_conv.out
-               i=$i+1
+               nsteps=`echo "25/$dt" | bc`
+               echo $nsteps
+               error=`./test_convergence $intg $dt $nsteps`
+               echo $dt"  "$error  #>> $intg""_conv.out
         done
 done

@@ -2,3 +2,4 @@
 *.o
 orig
 *_solve
+*con.out
