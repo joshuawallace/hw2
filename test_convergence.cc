@@ -81,24 +81,24 @@ int main(int argc, char **argv){
   const double A = ( (1 - omega*omega) * gamma) / ( pow(1-omega*omega,2) + 4 * beta*beta * omega*omega); //convenient parameter for analytic solution
   const double B = 2 * beta * omega * gamma / ( pow(1-omega*omega,2) + 4 * beta*beta * omega*omega);//convenient parameter for analytic solution
   
-  const double c1 = x[0] - A; //parameter, based on x, for analytic solution
-  const double c2 = (x[1] + beta * (x[0] - A) - omega * B)/sqrt(1 - beta * beta); //parameter, based on x and x', for analytic solution
+  const double c1 = x[0] - A; //parameter, based on initial x, for analytic solution
+  const double c2 = (x[1] + beta * (x[0] - A) - omega * B)/(sqrt(1 - beta * beta)); //parameter, based on initial x and x', for analytic solution
   
   double error_norm = 0.0; //This variable keeps track of the error norm as the integration progresses
   
   double t=0.; //The time
   
-  error_norm += dt * pow( (x[0] - x_of_linear_osc(t,beta,gamma,omega,c1,c2,A,B)), 2) * pow( (x[1] - x_prime_of_linear_osc(t,beta,gamma,omega,c1,c2,A,B)), 2);  //For the zeroeth step of the iteration, starting to calcualte the error_norm.
+  error_norm += pow( (x[0] - x_of_linear_osc(t,beta,gamma,omega,c1,c2,A,B)), 2) * pow( (x[1] - x_prime_of_linear_osc(t,beta,gamma,omega,c1,c2,A,B)), 2);  //For the zeroeth step of the iteration, starting to calcualte the error_norm.
   //this likely will add 0 to the error_norm, since the itegration hasn't even started yet and so
   //there has been no divergence between itegration and actual.
   
   for(int i = 0; i < nsteps; ++i){
     integrator->Step(t, x); //step the integration forward
     t = (i+1) * dt; //update the time
-    error_norm += dt * pow( (x[0] - x_of_linear_osc(t,beta,gamma,omega,c1,c2,A,B)), 2) * pow( (x[1] - x_prime_of_linear_osc(t,beta,gamma,omega,c1,c2,A,B)), 2); //update the error norm
+    error_norm += pow( (x[0] - x_of_linear_osc(t,beta,omega,gamma,c1,c2,A,B)), 2) + pow( (x[1] - x_prime_of_linear_osc(t,beta,omega,gamma,c1,c2,A,B)), 2); //update the error norm
   }
   
-  printf("%lf\n",sqrt(error_norm)); //prints out the error norm
+  printf("%g\n",sqrt(dt * error_norm)); //prints out the error norm
   
   delete integrator;
   delete model;

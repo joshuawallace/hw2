@@ -6,11 +6,11 @@ timestep="0.1 0.01 0.001 0.0001 0.00001"
 
 for intg in $integrators
 do
+        rm -f $intg""_conv.out
         for dt in $timestep
         do
                nsteps=`echo "25/$dt" | bc`
-               echo $nsteps
                error=`./test_convergence $intg $dt $nsteps`
-               echo $dt"  "$error  #>> $intg""_conv.out
+               echo $dt"  "$error  >> $intg""_conv.out
         done
 done
