@@ -48,7 +48,7 @@ int main(int argc, char **argv){
     const double omega = 1.0;
     model = new Duffing(delta, gamma, omega);
     x = new double[model->dimen()];
-    x[0]=1000.0;
+    x[0]=0.0;
     x[1]=0.0;
   }
   else if(strncmp(argv[1],  "lorenz",10)==0 ){
